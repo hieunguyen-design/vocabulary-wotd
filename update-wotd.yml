@@ -1,0 +1,36 @@
+name: Update Word of the Day
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Runs at 3:00 AM UTC every day
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  update-word:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use a current LTS version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run scraper to update index.html
+        run: npm start
+
+      - name: Commit and push if there are changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'docs: Update Word of the Day'
+          file_pattern: index.html
+          commit_user_name: 'GitHub Actions'
+          commit_user_email: 'actions@github.com'
+          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
