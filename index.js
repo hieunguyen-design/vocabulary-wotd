@@ -8,7 +8,8 @@ const WOTD_URL = 'https://www.vocabulary.com/word-of-the-day/';
  */
 async function scrapeWordOfTheDay() {
   console.log('Launching browser...');
-  const browser = await puppeteer.launch();
+  // The '--no-sandbox' flag is required to run Puppeteer in a containerized environment like GitHub Actions.
+  const browser = await puppeteer.launch({ args: ['--no-sandbox', '--disable-setuid-sandbox'] });
   const page = await browser.newPage();
 
   try {
