@@ -7,6 +7,12 @@ on:
   schedule:
     - cron: '0 3 * * *'
 
+# Add permissions for deployment
+permissions:
+  contents: write # Allow writing to the repository (for git-auto-commit-action)
+  pages: write # Allow deploying to GitHub Pages
+  id-token: write # Allow authentication for deployment
+
 jobs:
   update-word:
     runs-on: ubuntu-latest
@@ -18,13 +24,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24' # Use the latest LTS version
+          node-version: '22' # Use a stable LTS version
 
       - name: Install dependencies
         run: npm install
 
       - name: Run scraper to update index.html
         run: npm start
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: index.html
 
       - name: Commit and push if there are changes
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -34,3 +46,15 @@ jobs:
           commit_user_name: 'GitHub Actions'
           commit_user_email: 'actions@github.com'
           commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+
+  # Add a new job to handle the deployment
+  deploy:
+    needs: update-word
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
