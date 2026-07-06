@@ -14,7 +14,7 @@ permissions:
   id-token: write # Allow authentication for deployment
 
 jobs:
-  update-word:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -38,18 +38,18 @@ jobs:
           name: github-pages
           path: .
 
-      - name: Commit and push if there are changes
+      - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'docs: Update Word of the Day'
           file_pattern: index.html
-          commit_user_name: 'GitHub Actions'
-          commit_user_email: 'actions@github.com'
-          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
 
   # Add a new job to handle the deployment
   deploy:
-    needs: update-word
+    # This job will only run after the build job is complete AND on the main branch
+    needs: build
+    if: github.ref == 'refs/heads/main' # Or your default branch name
+
     runs-on: ubuntu-latest
     environment:
       name: github-pages
