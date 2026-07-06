@@ -75,7 +75,10 @@ async function scrapeWordOfTheDay() {
 </body>
 </html>`;
 
-    await fs.writeFile('index.html', htmlContent);
+    // Create a directory for the output and write the file there.
+    const outputDir = '_site';
+    await fs.mkdir(outputDir, { recursive: true });
+    await fs.writeFile(`${outputDir}/index.html`, htmlContent);
     console.log('Successfully created index.html with the Word of the Day.');
   } catch (error) {
     console.error('An error occurred during scraping:', error);

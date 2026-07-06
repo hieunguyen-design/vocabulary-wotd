@@ -36,14 +36,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: |
-            index.html
+          path: _site
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'docs: Update Word of the Day'
-          file_pattern: index.html
+          file_pattern: _site/index.html
 
   # Add a new job to handle the deployment
   deploy:
