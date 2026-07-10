@@ -33,10 +33,9 @@ jobs:
         run: npm start
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
-          path: _site
+          path: ./_site
 
       - name: Commit and push changes
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -55,6 +54,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
