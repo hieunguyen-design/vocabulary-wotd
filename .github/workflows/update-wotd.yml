@@ -41,7 +41,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'docs: Update Word of the Day'
-          file_pattern: _site/index.html
+          file_pattern: '_site/index.html _site/wotd.json'
 
   # Add a new job to handle the deployment
   deploy:

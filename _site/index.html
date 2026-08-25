@@ -59,8 +59,8 @@
   <body>
     <div class="container">
       <h1>Word of the Day</h1>
-      <h2 id="word"></h2>
-      <p id="usage"></p>
+      <h2 id="word">chintzy</h2>
+      <p id="usage">Something that's chintzy is tacky or cheap. A badly made pair of pants is chintzy, and a terribly acted, melodramatic movie is too.</p>
     </div>
     <script>
       async function fetchWordOfTheDay() {
@@ -70,8 +70,8 @@
             throw new Error(`HTTP error! status: ${response.status}`);
           }
           const data = await response.json();
-          document.getElementById('word').textContent = data.word;
-          document.getElementById('usage').textContent = data.usage;
+          if (data.word) document.getElementById('word').textContent = data.word;
+          if (data.usage) document.getElementById('usage').textContent = data.usage;
         } catch (error) {
           console.error('Error fetching word of the day:', error);
         }
