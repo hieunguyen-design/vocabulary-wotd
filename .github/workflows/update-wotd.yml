@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Puppeteer browsers
+        run: npx puppeteer browsers install chrome
+
       - name: Run scraper to update index.html
         run: npm run start
 
