@@ -118,11 +118,10 @@ async function scrapeWordOfTheDay() {
   </body>
 </html>`;
 
-    await fs.mkdir('_site', { recursive: true });
-    await fs.writeFile('_site/wotd.json', JSON.stringify(wotd, null, 2));
-    await fs.writeFile('_site/index.html', htmlContent);
+    await fs.writeFile('wotd.json', JSON.stringify(wotd, null, 2));
+    await fs.writeFile('index.html', htmlContent);
 
-    console.log('Successfully scraped and saved the Word of the Day to _site/wotd.json and _site/index.html.');
+    console.log('Successfully scraped and saved the Word of the Day to wotd.json and index.html.');
     console.log(`Word of the Day: ${word}`);
     console.log(`Usage: ${usage}`);
   } catch (error) {
